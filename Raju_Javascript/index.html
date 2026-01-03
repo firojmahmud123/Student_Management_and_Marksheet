@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Attendance & Marksheet</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Attendance & Marksheet</h1>
+      <div id="user-info" class="small"></div>
+    </header>
+
+    <!-- Login/Register -->
+    <section id="login-section" class="card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label>Email
+          <input id="login-email" type="email" required>
+        </label>
+        <label>Password
+          <input id="login-password" type="password" required>
+        </label>
+        <div class="actions">
+          <button class="btn" type="submit">Login</button>
+          <button class="btn secondary" type="button" id="register-btn">Register</button>
+        </div>
+        <div id="login-message" class="small"></div>
+      </form>
+    </section>
+
+    <!-- App Section -->
+    <section id="app" style="display:none">
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="attendance">Attendance</button>
+        <button class="tab-btn" data-tab="marksheet">Marksheet</button>
+      </div>
+
+      <!-- Attendance Tab -->
+      <div class="tab-content" id="attendance-tab">
+        <div class="layout">
+          <aside class="card">
+            <h3>Attendance</h3>
+            <label>Date <input id="att-date" type="date" value=""></label>
+            <div class="actions">
+              <button id="mark-all-present" class="btn">Mark All Present</button>
+              <button id="mark-all-absent" class="btn secondary">Mark All Absent</button>
+            </div>
+          </aside>
+          <main class="card">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Present</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-tbody"></tbody>
+            </table>
+          </main>
+        </div>
+      </div>
+
+      <!-- Marksheet Tab -->
+      <div class="tab-content" id="marksheet-tab" style="display:none">
+        <div class="layout">
+          <aside class="card">
+            <h3>Add Student & Marks</h3>
+            <form id="student-form">
+              <label>Student ID <input id="student-id" required></label>
+              <label>Name <input id="student-name" required></label>
+              <label>Email <input id="student-email" type="email"></label>
+              <div class="actions">
+                <button id="save-student-btn" class="btn">Save Student</button>
+                <button type="button" id="reset-student-btn" class="btn secondary">Reset</button>
+              </div>
+            </form>
+            <hr>
+            <h4>Add Course & Marks</h4>
+            <form id="course-form">
+              <label>Student ID <input id="course-student-id" required></label>
+              <label>Course Code <input id="course-code" required></label>
+              <label>Course Title <input id="course-title" required></label>
+              <label>Credits <input id="course-credit" type="number" step="0.25" required></label>
+              <label>Max Marks <input id="course-max" type="number" required></label>
+              <label>Obtained Marks <input id="course-marks" type="number" required></label>
+              <div class="actions">
+                <button id="save-course-btn" class="btn">Save Course</button>
+                <button type="button" id="reset-course-btn" class="btn secondary">Reset</button>
+              </div>
+            </form>
+          </aside>
+          <main class="card">
+            <div class="controls">
+              <label>Search Student ID:
+                <input id="marksheet-search-id" placeholder="Student ID">
+              </label>
+              <button id="search-marksheet-btn" class="btn">Search Marksheet</button>
+            </div>
+            <div id="individual-marksheet"></div>
+            <hr>
+            <h4>All Students Marksheet</h4>
+            <div id="marksheet-area"></div>
+            <div class="actions">
+              <button id="generate-marksheet" class="btn">Generate All</button>
+              <button id="export-marksheet" class="btn">Export CSV</button>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:20px">
+        <button id="logout-btn" class="btn danger">Logout</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
